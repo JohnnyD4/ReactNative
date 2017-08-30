@@ -24,15 +24,29 @@ export default class App extends React.Component {
         '1': FirstRoute,
         '2': SecondRoute,
     });
-    
-    _onPressButton() {
-    Alert.alert("hello")
 
-  }
+    _onPressButton() {
+    Alert.alert(JSON.stringify(this.state.position))
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = { position: 'unknown' };
+    }
+    
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => this.setState({position}),
+            (error) => console.error(error),
+            
+        );
+    }
+
+  
   render() {
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={this._onPressButton}>
+            <TouchableOpacity style={styles.box} onPress={this._onPressButton}>
                 <Text>Open up App.js to starghfght woffdfgcvbrking on your app!</Text>
                 <Text style={styles.text}>Hello!df</Text>
             </TouchableOpacity>
@@ -42,7 +56,8 @@ export default class App extends React.Component {
                 onPress={this._onPressButton}>
                 Hello
             </Button>
-            <Text>Shake your phone to open the developer menu.</Text>
+            <Text>Position: {JSON.stringify(this.state.position)}</Text>
+
         </View>
     );
   }
@@ -66,5 +81,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
     
+  },
+
+  box: {
+    backgroundColor: 'white',
+    marginTop: 0,
+    marginBottom: '40%'
   }
 });
